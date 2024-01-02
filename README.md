@@ -12,7 +12,7 @@
     <td> This project is a Bachelor thesis. The folder contains one pdf with the thesis itself, and one jupyter notebook  with code. This project focused on using machine learning methods for binary classification. </td>
   </tr>
   <tr>
-    <td> A mathematical Approach to Financially Evaluate a UnderWater Data Warehouse</td>
+    <td> A Mathematical Approach to Financially Evaluate a UnderWater Data Warehouse</td>
     <td> The project is a pdf that continas both text and Python-code.  The project focuses on using calculus and linear algebra to financially evaluate a underwater data warehouse. </td>
   </tr>
 </table>
