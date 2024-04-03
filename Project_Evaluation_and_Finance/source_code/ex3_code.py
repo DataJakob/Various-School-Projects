@@ -19,9 +19,10 @@ class BinPriMod:
 
 
     def help():
-        print('def __init__(self, S, K, sigma, periods, h, rate_i, rate_dy,option_type, exercise_style):')
+        print('def __init__(self, S, K, sigma, total_time, period_timespan, rate_i, rate_dy,option_type, exercise_style):')
         print('\n')
         print('Attributes:\n    up_and_down,\n  storage_values,\n   option_price')
+
 
     def up_and_down(self, spot):   
         uS = spot*np.e**((self.risk_free - self.dividend_yield) * 
@@ -29,6 +30,7 @@ class BinPriMod:
         dS = spot*np.e**((self.risk_free -self.dividend_yield) * 
                               self.period_time_span - self.risk*np.sqrt(self.period_time_span))
         return [uS, dS]
+
 
     def storage_values(self, post=None):
         storage = [[self.spot]]
@@ -76,7 +78,6 @@ class BinPriMod:
         else:
             print('State option type!!!')
         latest_opt_pri.append(abs(array))
-
         for i in range(0, self.n_periods, 1): 
             sub_optpri_storage = []
             for j in range(0,self.n_periods-i,1):   #periods- 1
@@ -86,18 +87,13 @@ class BinPriMod:
                                                             latest_opt_pri[i][j], 
                                                             latest_opt_pri[i][j+1]))
             latest_opt_pri.append(np.round(sub_optpri_storage,2))
-            
         self.prices = np.flip(latest_opt_pri)
         if post == True:
             return self.prices
         return self.prices
-        
-    
     
 
     def plot_tree(self,txt_shift):
-    
-
         fig, ax = plt.subplots(figsize=(6,6))
         for i in range(0,int(self.n_periods)+1,1):
             ax.scatter(x=np.repeat((i)*1,i+1), y= self.values[i])
