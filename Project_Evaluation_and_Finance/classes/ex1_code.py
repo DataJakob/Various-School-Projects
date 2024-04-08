@@ -75,7 +75,8 @@ class BlaSchMet:
     def find_imp_vol(self, x_guess=None):
         self.x = x_guess
         self.volatility = self.x
-        result = RS(self.call_black_scholes, args=(self.option_price,), x0=x_guess, bracket=[0.0001, 1])
+        result = RS(self.call_black_scholes, args=(self.option_price,), x0=x_guess, bracket=[0.0001, 2])
+        
         return round(result.root,3)
     
 
