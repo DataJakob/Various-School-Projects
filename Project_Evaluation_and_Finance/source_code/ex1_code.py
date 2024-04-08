@@ -80,8 +80,8 @@ class BlaSchMet:
     
 
     def vega_calc(self):
-        part1 = 1/100 
-        part2 = self.spot * np.e**(-self.dividend_yield*self.total_time) * np.sqrt(self.total_time)
-        part3 = (np.e**((-self.d1_func(post=True)**2)/2))/2
+        part1 = 1/100 *self.spot
+        part2 = np.e**(-self.dividend_yield*self.total_time) * np.sqrt(self.total_time)
+        part3 = np.e**((-self.d1_func(post=True)**2)/2)/(np.sqrt(2*np.pi))
         result = part1 * part2 *part3
         return result
