@@ -1,6 +1,4 @@
-import pandas as pd
-import numpy as np
-import statsmodels.api as sm
+
 
 class LeaSquMonCar():
     def __init__(self, S, K, T, vol, rf,  div_y, option_type, paths, time_steps):
@@ -19,13 +17,17 @@ class LeaSquMonCar():
         self.pathdf = None
         self.payoffdf = None
 
+        import pandas as pd
+        import numpy as np
+        import statsmodels.api as sm
+
     def CreatePaths(self,post=None):
         path_list = []
         for path in range(self.paths):
             path_i = [self.spot]
             for steps in range(self.time_steps):
                 part1 = (self.risk_free-self.dividend_yield*(1/2)*self.volatility**2)*self.h
-                part2 = np.random.normal(0,1)
+                part2 = np.random.normal(0,1, seed=43)
                 part3 = self.volatility * np.sqrt(self.h)*part2
                 S_t = path_i[-1]*np.e**(part1+part3)
                 path_i.append(S_t)
