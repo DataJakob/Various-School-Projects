@@ -3,6 +3,10 @@ import numpy as np
 import statsmodels.api as sm
 
 class LeaSquMonCar():
+    # import pandas as pd
+    # import numpy as np
+    # import statsmodels.api as sm
+
     def __init__(self, S, K, T, vol, rf,  div_y, option_type, paths, time_steps):
     # def __init__(self, S, K, T, vol, rf,  div_y, option_type, paths, time_steps, df):
         self.spot = S
@@ -18,6 +22,8 @@ class LeaSquMonCar():
         # self.pathdf =  df
         self.pathdf = None
         self.payoffdf = None
+        self.xes = None
+        self.yes = None
 
 
     def CreatePaths(self,post=None):
@@ -26,6 +32,7 @@ class LeaSquMonCar():
             path_i = [self.spot]
             for steps in range(self.time_steps):
                 part1 = (self.risk_free-self.dividend_yield*(1/2)*self.volatility**2)*self.h
+                # np.random.seed(path)
                 part2 = np.random.normal(0,1)
                 part3 = self.volatility * np.sqrt(self.h)*part2
                 S_t = path_i[-1]*np.e**(part1+part3)
@@ -115,7 +122,7 @@ class LeaSquMonCar():
         if post==True:
             return Payoff_df
     
-    def PlotEarlyExercise(self):
+    def EarlyExerciseCoordinates(self):
         # fig, ax = plt.subplots()
         xes = []
         yes = []
@@ -130,5 +137,17 @@ class LeaSquMonCar():
                 # ax.plot(self.pathdf[i],color='grey',alpha=0.3)
                 xes.append(x[0][0])
                 yes.append(y)
+        self.xes = xes
+        self.yes = yes
         return [xes,yes]
+    
+    def OptionPrice(self):
+        # n_exercises = len(self.paths)
+        total_npv = []
+        for i in range(1,len(self.xes),1):
+            pv_sel = self.yes[i]*(np.e**(-(self.risk_free-self.dividend_yield)))**(self.xes[i]+1)
+            total_npv.append(pv_sel)
+        value = sum(total_npv)/self.paths
+        return value
+        # print('Call value using LSMC:', round(value,4))
         
