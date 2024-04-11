@@ -216,13 +216,14 @@ class BinPriMod:
         for i in range(0, self.n_periods, 1): 
             sub_optpri_storage = []
             for j in range(0,self.n_periods-i,1):   #periods- 1
-                sub_optpri_storage.append(self.option_price(self.values[self.n_periods][j], 
-                                                            self.values[self.n_periods][j+1],
-                                                            self.values[self.n_periods-1][j],
+                sub_optpri_storage.append(self.option_price(self.values[self.n_periods-i][j], 
+                                                            self.values[self.n_periods-i][j+1],
+                                                            self.values[self.n_periods-(i+1)][j],
                                                             latest_opt_pri[i][j], 
                                                             latest_opt_pri[i][j+1]))
             latest_opt_pri.append(np.round(sub_optpri_storage,2))
-        self.prices = np.flip(latest_opt_pri)
+        self.prices = latest_opt_pri
+
         if post == True:
             return self.prices
         return self.prices
@@ -234,7 +235,7 @@ class BinPriMod:
             ax.scatter(x=np.repeat((i)*1,i+1), y= self.values[i])
             for j in range(0,i+1,1):
                 text_value = 'Value '+ str(self.values[i][j])
-                text_price = 'Price '+ str(self.prices[i][j])
+                text_price = 'Price '+ str(self.prices[self.n_periods-i][j])
                 ax.annotate(text_value, xy=(i*1, self.values[i][j]+txt_shift))
                 ax.annotate(text_price, xy=(i*1, self.values[i][j]-txt_shift))
             ax.set_xlabel('Periods')
