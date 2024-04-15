@@ -334,7 +334,6 @@ class BinPriMod:
         if post==True:
             return prepfor
 
-# (p*ou + (1-p)*od)*np.e**(0.08/3)
 
     def option_price(self, 
                      up, down, alt_spot, org_spot,
@@ -344,15 +343,10 @@ class BinPriMod:
         p_part1 = (self.risk_free-self.dividend_yield)*self.period_time_span
         p = (np.e**(p_part1)-d) / (u-d)
         disc = np.e**(-self.risk_free*self.period_time_span)
-
-        # part1= (p*low_optpri+ (1-p)*high_optpri)
-        # part2 = (self.risk_free-self.dividend_yield)*self.period_time_span
-
         def price(p,ou,od,disc):
             return (p*ou + (1-p)*od) * disc
 
         opt_price = price(p,high_optpri,low_optpri,disc)
-        # print(alt_spot)
 
         if self.exercise_style == 'European':
             opt_price = opt_price
@@ -364,15 +358,6 @@ class BinPriMod:
         else:
             print('State exercise style!!!')
         return round(opt_price,3)
-    
-
-    # def price(up,down,opthigh,optlow,spot):
-    #     upr = up/spot
-    #     downr = down/spot
-    #     p = (np.e**(0.08*1/3)-downr)/(upr-downr)
-    #     price = np.e**(-0.08*1/3)*((opthigh*p)+(optlow*(1-p)))
-    #     # print(p)
-    #     return price
     
 
     def storage_prices(self, post=None):
@@ -402,7 +387,6 @@ class BinPriMod:
                                                             latest_opt_pri[i][j], 
                                                             latest_opt_pri[i][j+1]))
             latest_opt_pri.append(np.round(sub_optpri_storage,2))
-        # self.prices = np.flip(latest_opt_pri)
         self.prices = latest_opt_pri
         if post == True:
             return self.prices
